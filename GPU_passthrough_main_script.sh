@@ -3,8 +3,11 @@
 #to run in Linux root under root user:  
 # curl -o- https://raw.githubusercontent.com/alttehn/Proxmox-ServerSetup/master/GPU_passthrough_main_script.sh | bash
 # sh -c "$(curl -sSL https://raw.githubusercontent.com/alttehn/Proxmox-ServerSetup/master/GPU_passthrough_main_script.sh)"
-echo "Welcome to PCI GPU passthrough script! \n Before we start enable in your BIOS: VT-d:Enable, Intel Vitrualization Technology:Enable, Primary Graphx adapter:VGA, Above 4G Decoding:Enable."
-read -p "Please press [Enter] to continue..."
+echo "Welcome to PCI GPU passthrough script!"
+echo "Before we start enable in your BIOS:"
+echo "VT-d:Enable, Intel Vitrualization Technology:Enable, Primary Graphx adapter:VGA, Above 4G Decoding:Enable"
+echo "Please press [Enter] to continue..."
+read NOTHING
 
 # File to Work with on Step 1. Processor»
 file='/etc/default/grub'
@@ -12,6 +15,7 @@ file='/etc/default/grub'
 # Argument for choice
 choice=4
 # Choise
+echo "********Step 1**************"
 echo «What is the manufactory of your CPU?»
 echo «1. Intel Processor»
 echo «2. AMD Processor»
@@ -56,8 +60,9 @@ echo "vfio_pci" >> /etc/resolv.conf
 echo "vfio_virqfd" >> /etc/resolv.conf
 #=============================================
 # get vfio-pci ids
+echo "********Step 2**************"
+echo "This is your GPU devices please write all of them to next file"
 lspci -nn|grep -iP "NVIDIA|Radeon"
-echo ""
 echo ""
 echo "Please enter your vfio-pci ids, no quotes (e.g. '10de:1234,10de:4321')"
 read VFIOID
@@ -69,7 +74,8 @@ cat /etc/modprobe.d/vfio.conf
 echo ""
 
 =================================================
-read -p "Script is over. Please press [Enter] to reboot"
+echo  "Script is over. Please press [Enter] to reboot"
+read NOTHING
 reboot
 echo "done"
 
