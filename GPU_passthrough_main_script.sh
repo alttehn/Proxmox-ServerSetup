@@ -1,9 +1,8 @@
 #!/bin/bash
 # Script for auto configure passthrouh
 #to run in Linux root under root user:  
-# curl -o- https://raw.githubusercontent.com/alttehn/Proxmox-ServerSetup/master/GPU_passthrough_main_script.sh | bash
 # sh -c "$(curl -sSL https://raw.githubusercontent.com/alttehn/Proxmox-ServerSetup/master/GPU_passthrough_main_script.sh)"
-echo "Welcome to PCI GPU passthrough script!"
+echo "Welcome to PCI GPU passthrough script V1.12!"
 echo "Before we start enable in your BIOS:"
 echo "VT-d:Enable, Intel Vitrualization Technology:Enable, Primary Graphx adapter:VGA, Above 4G Decoding:Enable"
 echo "Please press [Enter] to continue..."
@@ -54,10 +53,15 @@ done
 update-grub
 #=============================================
 #Add GPU driver for blacklist in main system
-echo "vfio" >> /etc/resolv.conf
-echo "vfio_iommu_type1" >> /etc/resolv.conf
-echo "vfio_pci" >> /etc/resolv.conf
-echo "vfio_virqfd" >> /etc/resolv.conf
+echo "vfio" >> /etc/modules
+echo "vfio_iommu_type1" >> /etc/modules
+echo "vfio_pci" >> /etc/modules
+echo "vfio_virqfd" >> /etc/modules
+#=============================================
+#Add GPU driver for blacklist in main system
+echo "blacklist radeon" >> nano /etc/modprobe.d/blacklist.conf
+echo "blacklist nouveau" >> nano /etc/modprobe.d/blacklist.conf
+echo "blacklist nvidia" >> nano /etc/modprobe.d/blacklist.conf
 #=============================================
 # get vfio-pci ids
 echo "********Step 2**************"
