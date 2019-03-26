@@ -1,9 +1,9 @@
 #!/bin/bash
 # Script for auto configure passthrouh
-
+#to run in Linux root under root user:   sh -c "$(curl -sSL https://raw.githubusercontent.com/alttehn/Proxmox-ServerSetup/master/GPU_passthrough_main_script.sh)"
+#
 echo "Welcome to PCI GPU passthrough script! \n Before we start enable in your BIOS: VT-d:Enable, Intel Vitrualization Technology:Enable, Primary Graphx adapter:VGA, Above 4G Decoding:Enable."
 read -p "Please press [Enter] to continue..."
-
 
 # File to Work with on Step 1. Processor»
 file='/etc/default/grub'
@@ -24,13 +24,13 @@ read choice
 if [ $choice -eq 1 ] ; then
 
 echo «You have chosen Intel Processor»
-sed -i "s/quiet/quiet intel_iommu=on/" ./$file
+sed -i "s/quiet/quiet intel_iommu=on/" $file
 
 else
 
 if [ $choice -eq 2 ] ; then
 echo «You have chosen AMD Processor»
-sed -i "s/quiet/quiet amd_iommu=on/" ./$file
+sed -i "s/quiet/quiet amd_iommu=on/" $file
 else
 
 if [ $choice -eq 3 ] ; then
